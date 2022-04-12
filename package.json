@@ -32,6 +32,9 @@
       "icons/**/*"
     ],
     "appId": "com.joelpodrebarac.mobtime-native",
-    "productName": "Mobtime Native"
+    "productName": "Mobtime Native",
+    "mac": {
+      "icon": "build/icon.png"
+    }
   }
 }
