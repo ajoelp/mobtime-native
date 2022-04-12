@@ -20,6 +20,9 @@ jobs:
           node-version: 16
 
       - name: build
+        run: yarn install
+
+      - name: build
         run: yarn build
 
       - name: Build/release Electron app
