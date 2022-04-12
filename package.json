@@ -7,7 +7,7 @@
     "url": "https://www.joelpodrebarac.dev/"
   },
   "repository": "github:ajoelp/mobtime-native",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "./dist/main.js",
   "scripts": {
     "build": "tsc",
