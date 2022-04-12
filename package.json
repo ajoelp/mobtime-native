@@ -1,5 +1,12 @@
 {
   "name": "mobtime-native",
+  "description": "Mobtime native app",
+  "author": {
+    "name": "Joel Podrebarac",
+    "email": "joelpodrebar@gmail.com",
+    "url": "https://www.joelpodrebarac.dev/"
+  },
+  "repository": "github:ajoelp/mobtime-native",
   "version": "1.0.1",
   "main": "dist/main.js",
   "scripts": {
