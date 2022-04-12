@@ -9,6 +9,9 @@ jobs:
   release:
     runs-on: ${{ matrix.os }}
 
+    env:
+      GITHUB_TOKEN: ${{ secrets.github_token }}
+
     strategy:
       matrix:
         os: [macos-latest]
@@ -26,6 +29,4 @@ jobs:
         run: yarn
 
       - name: publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.github_token }}
         run: yarn publish
