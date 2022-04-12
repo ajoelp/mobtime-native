@@ -1,6 +1,6 @@
 {
   "name": "mobtime-native",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/main.js",
   "scripts": {
     "build": "tsc",
@@ -28,7 +28,9 @@
       "icon": false
     },
     "linux": {
-      "target": ["AppImage"],
+      "target": [
+        "AppImage"
+      ],
       "category": "Office"
     }
   }
