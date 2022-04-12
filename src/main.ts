@@ -25,9 +25,7 @@ const createWindow = () => {
     mainWindow = new BrowserWindow({
         width: 900,
         height: 700,
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
-        }
+        icon: path.resolve(__dirname, '../build/icon.png')
     })
 
     // and load the index.html of the app.
