@@ -19,12 +19,6 @@ jobs:
         with:
           node-version: 16
 
-      - name: build
-        run: yarn install
-
-      - name: build
-        run: yarn build
-
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
