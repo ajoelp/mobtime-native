@@ -3,8 +3,9 @@
   "productName": "mobtime-native",
   "version": "2.0.4",
   "description": "My Electron application description",
-  "main": "dist/index.js",
+  "main": ".webpack/main",
   "scripts": {
+    "bundle": "babel ./src --out-dir dist --extensions \".ts,.tsx\"",
     "start": "tsc && electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -17,63 +18,37 @@
     "email": "joelpodrebar@gmail.com"
   },
   "license": "MIT",
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "icon": "build/icon.png"
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "mobtime_native"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ],
-      "publishers": [
-        {
-          "name": "@electron-forge/publisher-github",
-          "config": {
-            "repository": {
-              "owner": "ajoelp",
-              "name": "mobtime-native"
-            }
-          }
-        }
-      ]
-    }
-  },
   "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.9",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.17.3",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
     "@electron-forge/cli": "^6.0.0-beta.63",
     "@electron-forge/maker-deb": "^6.0.0-beta.63",
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "@electron-forge/plugin-webpack": "^6.0.0-beta.63",
     "@electron-forge/publisher-github": "^6.0.0-beta.63",
     "@types/websocket": "^1.0.5",
+    "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "electron": "18.0.3",
+    "electron": "^18.0.4",
     "eslint": "^8.0.1",
     "eslint-plugin-import": "^2.25.0",
+    "esm": "^3.2.25",
+    "node-loader": "^2.0.0",
+    "ts-loader": "^9.2.8",
     "typescript": "~4.5.4"
   },
   "dependencies": {
+    "@mobtime/sdk": "^1.0.0-beta.6",
     "electron-squirrel-startup": "^1.0.0",
-    "websocket": "^1.0.34"
+    "isomorphic-ws": "^4.0.1",
+    "websocket": "^1.0.34",
+    "ws": "^8.5.0"
   }
 }
