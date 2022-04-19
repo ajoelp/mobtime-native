@@ -11,6 +11,9 @@ jobs:
 
     env:
       GITHUB_TOKEN: ${{ secrets.github_token }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_IDENTITY: ${{ secrets.APPLE_IDENTITY }}
+      APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
 
     strategy:
       matrix:
@@ -24,6 +27,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
+
+      - name: Add MacOS certs
+        if: matrix.os == 'macos-latest' && startsWith(github.ref, 'refs/tags/')
+        run: chmod +x add-osx-cert.sh && ./add-osx-cert.sh
+        env:
+          APPLE_CERT: ${{ secrets.APPLE_CERT }}
+          APPLE_CERT_PASSWORD: ${{ secrets.APPLE_CERT_PASSWORD }}
 
       - name: Install
         run: yarn
