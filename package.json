@@ -1,6 +1,6 @@
 {
   "name": "mobtime-native",
-  "productName": "mobtime-native",
+  "productName": "Mobtime",
   "version": "2.0.5",
   "description": "My Electron application description",
   "main": ".webpack/main",
