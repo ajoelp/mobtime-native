@@ -13,6 +13,7 @@
     "lint": "eslint --ext .ts ."
   },
   "keywords": [],
+  "repository": "github:mobtimeapp/mobtime-native",
   "author": {
     "name": "Joel Podrebarac",
     "email": "joelpodrebar@gmail.com"
@@ -49,6 +50,7 @@
     "@mobtime/sdk": "^1.0.0-beta.6",
     "electron-squirrel-startup": "^1.0.0",
     "isomorphic-ws": "^4.0.1",
+    "update-electron-app": "^2.0.1",
     "websocket": "^1.0.34",
     "ws": "^8.5.0"
   }

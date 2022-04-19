@@ -1,6 +1,9 @@
 import {app, BrowserWindow} from 'electron';
 import {MobtimeWindow} from "./MobtimeWindow";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('update-electron-app')()
+
 const window = new MobtimeWindow()
 
 if (require('electron-squirrel-startup')) {
