@@ -1,5 +1,6 @@
 import {Tray, Menu, MenuItemConstructorOptions} from 'electron'
 import * as path from "path";
+import TrayImage from '../resources/tray_dark.png'
 
 export class MobtimeTray {
 
@@ -7,7 +8,7 @@ export class MobtimeTray {
     contextMenuItems: MenuItemConstructorOptions[] = []
 
     create() {
-        this.tray = new Tray(path.resolve(__dirname, '../../icons/tray_dark.png'))
+        this.tray = new Tray(path.resolve(__dirname, TrayImage))
         this.contextMenu();
     }
 

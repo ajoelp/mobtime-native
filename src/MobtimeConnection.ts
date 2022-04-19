@@ -25,7 +25,6 @@ export class MobtimeState {
     }
 
     topTwoMembers() {
-        console.log(this.mob)
         const members = [...this.mob]
         members.length = Math.min(members.length, 2)
         return members
@@ -83,7 +82,6 @@ export class MobtimeConnection {
                         .commit();
                 }
             } catch (e) {
-                console.log(e)
                 this.cleanup()
             }
         }, 250)
