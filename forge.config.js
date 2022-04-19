@@ -1,19 +1,19 @@
 module.exports = {
     "packagerConfig": {
         "icon": "resources/icon.icns",
-        // "osxSign": {
-        //     "identity": process.env.APPLE_IDENTITY,
-        //     "hardened-runtime": true,
-        //     "entitlements": "entitlements.plist",
-        //     "entitlements-inherit": "entitlements.plist",
-        //     "signature-flags": "library",
-        //     "gatekeeper-assess": false
-        // },
-        // "osxNotarize": {
-        //     "appBundleId": "com.joelpodrebarac.mobtime",
-        //     "appleId": process.env.APPLE_ID,
-        //     "appleIdPassword": process.env.APPLE_ID_PASSWORD,
-        // }
+        "osxSign": {
+            "identity": process.env.APPLE_IDENTITY,
+            "hardened-runtime": true,
+            "entitlements": "entitlements.plist",
+            "entitlements-inherit": "entitlements.plist",
+            "signature-flags": "library",
+            "gatekeeper-assess": false
+        },
+        "osxNotarize": {
+            "appBundleId": "com.joelpodrebarac.mobtime",
+            "appleId": process.env.APPLE_ID,
+            "appleIdPassword": process.env.APPLE_ID_PASSWORD,
+        }
     },
     "makers": [
         {
