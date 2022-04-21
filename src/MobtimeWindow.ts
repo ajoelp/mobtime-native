@@ -1,4 +1,4 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, app} from 'electron';
 import {Config} from "./Config";
 import {MobtimeTray} from "./MobtimeTray";
 import {MobtimeConnection, MobtimeState} from "./MobtimeConnection";
@@ -52,8 +52,8 @@ export class MobtimeWindow {
     }
 
     async reload() {
-        await this.cleanup()
-        await this.create()
+        await app.relaunch()
+        await app.exit(0)
     }
 
     async cleanup() {

@@ -32,11 +32,14 @@ export class MobtimeState {
 
 }
 
+export const MAX_RETRIES = 5;
+
 export class MobtimeConnection {
 
     mobtime: any
     state = new MobtimeState()
     interval: NodeJS.Timer;
+    retries = 0
 
     create(urlString: string){
         const url = new URL(urlString)
@@ -59,10 +62,15 @@ export class MobtimeConnection {
             .then(this.start.bind(this))
             .catch(() => {
                 this.cleanup()
+                if(this.retries <= MAX_RETRIES) {
+                    this.retries++;
+                    this.create(urlString)
+                }
             })
     }
 
     start(mobtime: any) {
+        this.retries = 0
 
         mobtime.on(Message.MOB_UPDATE, () => {
             this.state.setMob(mobtime.mob().items())
