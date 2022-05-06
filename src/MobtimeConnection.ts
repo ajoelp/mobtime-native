@@ -1,6 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { Mobtime, nodeWebsocket, Message } from '@mobtime/sdk'
+import {MobtimeWindow} from "./MobtimeWindow";
+import Utils from "./Utils";
 
 type Listener = (instance: MobtimeState) => void
 type Member = {id: string, name: string};
@@ -8,20 +10,13 @@ type Member = {id: string, name: string};
 export class MobtimeState {
     timeRemaining: number
     mob: Member[] = []
-    listener: Listener
 
     setTimeRemaining(timeRemaining: number) {
         this.timeRemaining = timeRemaining
-        this.listener?.(this);
     }
 
     setMob(members: Member[]) {
         this.mob = members
-        this.listener?.(this);
-    }
-
-    setListener(listener: Listener) {
-        this.listener = listener;
     }
 
     topTwoMembers() {
@@ -36,12 +31,19 @@ export const MAX_RETRIES = 5;
 
 export class MobtimeConnection {
 
-    mobtime: any
-    state = new MobtimeState()
-    interval: NodeJS.Timer;
-    retries = 0
+    public mobtime: any
+    public interval: NodeJS.Timer;
+    public retries = 0
+    public state = new MobtimeState()
+    private window: MobtimeWindow;
+    private urlString: string;
+
+    constructor(window: MobtimeWindow) {
+        this.window = window;
+    }
 
     create(urlString: string){
+        this.urlString = urlString
         const url = new URL(urlString)
 
         if(url.pathname === '/') {
@@ -59,14 +61,26 @@ export class MobtimeConnection {
                     }
                 )
             )
-            .then(this.start.bind(this))
+            .then((mobtime: any) => {
+                this.start(mobtime)
+                mobtime.on('close', () => this.websocketDisconnected())
+                mobtime.on('error', () => this.websocketDisconnected())
+            })
             .catch(() => {
                 this.cleanup()
-                if(this.retries <= MAX_RETRIES) {
-                    this.retries++;
-                    this.create(urlString)
-                }
+                this.mobtime.off('close', () => this.websocketDisconnected())
+                this.mobtime.off('error', () => this.websocketDisconnected())
             })
+    }
+
+    websocketDisconnected() {
+        this.cleanup()
+        this.window.tray.setTitle("Websocket disconnected.")
+    }
+
+    reloadWebsocket(){
+        this.cleanup()
+        this.create(this.urlString)
     }
 
     start(mobtime: any) {
@@ -74,6 +88,7 @@ export class MobtimeConnection {
 
         mobtime.on(Message.MOB_UPDATE, () => {
             this.state.setMob(mobtime.mob().items())
+            this.updateTimingTitle(this.state);
         })
 
         this.interval = setInterval(() => {
@@ -82,6 +97,7 @@ export class MobtimeConnection {
 
                 this.state.setTimeRemaining(mobtime.timer().remainingMilliseconds())
                 this.state.setMob(mobtime.mob().items())
+                this.updateTimingTitle(this.state);
 
                 if (this.state.timeRemaining === 0) {
                     mobtime
@@ -95,14 +111,17 @@ export class MobtimeConnection {
         }, 250)
     }
 
+    updateTimingTitle(mobtime: MobtimeState) {
+        this.window.tray.setTitle([
+            Utils.formatTime(mobtime.timeRemaining) ?? undefined,
+            mobtime.topTwoMembers().map(a => a.name).join(' > ')
+        ].filter(Boolean).join(' - '))
+    }
+
     cleanup() {
         if(this.interval){
             clearInterval(this.interval)
+            this.interval = null
         }
     }
-
-    setListener(listener: Listener) {
-        this.state.setListener(listener);
-    }
-
 }

@@ -1,14 +1,18 @@
 import { BrowserWindow, app} from 'electron';
 import {Config} from "./Config";
 import {MobtimeTray} from "./MobtimeTray";
-import {MobtimeConnection, MobtimeState} from "./MobtimeConnection";
-import Utils from "./Utils";
+import {MobtimeConnection} from "./MobtimeConnection";
 
 export class MobtimeWindow {
     window: BrowserWindow
     config = new Config()
-    tray = new MobtimeTray()
-    connection = new MobtimeConnection()
+    tray: MobtimeTray
+    connection: MobtimeConnection
+
+    constructor() {
+        this.tray = new MobtimeTray(this)
+        this.connection = new MobtimeConnection(this)
+    }
 
     async create() {
         await this.config.load()
@@ -37,6 +41,13 @@ export class MobtimeWindow {
                 }
             },
             {
+                label: 'Reload Socket',
+                type: 'normal',
+                click: () => {
+                    this.connection.reloadWebsocket()
+                }
+            },
+            {
                 label: 'Reload',
                 type: 'normal',
                 click: () => { this.reload() }
@@ -45,9 +56,6 @@ export class MobtimeWindow {
 
         this.window.webContents.on('did-navigate', () => {
             this.connection.create(this.window.webContents.getURL())
-            this.connection.setListener((mobtime) => {
-                this.mobtimeListener(mobtime)
-            })
         })
     }
 
@@ -59,12 +67,5 @@ export class MobtimeWindow {
     async cleanup() {
         this.tray.cleanup()
         this.connection.cleanup()
-    }
-
-    mobtimeListener(mobtime: MobtimeState) {
-        this.tray.setTitle([
-            Utils.formatTime(mobtime.timeRemaining) ?? undefined,
-            mobtime.topTwoMembers().map(a => a.name).join(' > ')
-        ].filter(Boolean).join(' - '))
     }
 }
